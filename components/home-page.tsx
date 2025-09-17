@@ -432,21 +432,25 @@ export function HomePage({
             className="flex flex-col items-center py-2 text-red-500 hover:bg-red-50 rounded-2xl px-4"
           >
             <Phone className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Emergencys</span>
+            <span className="text-xs font-medium">Emergency</span>
           </Button>
           
           {/* Premium Center Diya */}
           <div className="relative">
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400 rounded-full flex items-center justify-center shadow-2xl border-4 border-white">
-              <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg">
-                <div className="w-8 h-6 bg-gradient-to-r from-orange-500 to-red-500 rounded-full relative">
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-3 bg-yellow-300 rounded-full"></div>
-                  <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-yellow-400/60 rounded-full blur-sm animate-pulse"></div>
-                </div>
-              </div>
-            </div>
-            <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
+  {/* Main circular background with glow */}
+        <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-white bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400">
+          <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+            <img
+              src="/icon.png"   // 🔹 replace with your diya image path
+              alt="Diya"
+              className="w-8 h-8 object-contain"
+            />
           </div>
+        </div>
+
+  {/* Outer glow animation */}
+  <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
+</div>
           
           <Button
             variant="ghost"
