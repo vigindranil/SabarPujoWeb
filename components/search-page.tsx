@@ -41,7 +41,7 @@ export function SearchPage({ onBack, onPandalSelect, userLocation }: SearchPageP
 
   const fetchAllPandals = async () => {
     try {
-      const response = await fetch("http://vigpl.com:8005/UtsavRestAPI/api/pujaPandal/findPujaPandalDetailsByName", {
+      const response = await fetch("https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/findPujaPandalDetailsByName", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

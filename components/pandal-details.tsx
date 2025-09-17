@@ -70,7 +70,7 @@ export function PandalDetails({ pandalId, userLocation, onBack }: PandalDetailsP
     if (!userLocation) return
 
     try {
-      const response = await fetch("http://vigpl.com:8005/UtsavRestAPI/api/pujaPandal/getPujaPandalDetails", {
+      const response = await fetch("https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getPujaPandalDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
