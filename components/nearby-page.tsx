@@ -156,7 +156,7 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
     try {
       setLoading(true)
       const response = await fetch(
-        "http://vigpl.com:8005/WBUtsavRestAPI/api/pujaPandal/getNearbyPandalsAndFacilities",
+        "https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getNearbyPandalsAndFacilities",
         {
           method: "POST",
           headers: {
