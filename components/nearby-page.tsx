@@ -18,6 +18,8 @@ import {
   Star,
   Phone,
   ExternalLink,
+  Home,
+  ImageIcon,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -33,6 +35,9 @@ declare global {
 interface NearbyPageProps {
   onBack: () => void
   userLocation: { lat: number; lng: number } | null
+  onShowHome?: () => void
+  onShowEmergency?: () => void
+  onShowGallery?: () => void
 }
 
 interface FacilityItem {
@@ -150,7 +155,7 @@ const facilityConfig = {
   },
 }
 
-export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
+export function NearbyPage({ onBack, userLocation, onShowHome, onShowEmergency, onShowGallery }: NearbyPageProps) {
   const [nearbyData, setNearbyData] = useState<NearbyData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -426,13 +431,35 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
     }
   }
 
+  const handleHomeClick = () => {
+    if (onShowHome) {
+      onShowHome()
+    }
+  }
+
+  const handleEmergencyCall = () => {
+    if (onShowEmergency) {
+      onShowEmergency()
+    }
+  }
+
+  const handleGalleryClick = () => {
+    if (onShowGallery) {
+      onShowGallery()
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <div className="relative">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-indigo-200 border-t-indigo-600 mx-auto mb-6"></div>
+              <img
+                src="/traditional-diya-oil-lamp-icon.jpg"
+                alt="Diya lamp"
+                className="w-16 h-16 mx-auto mb-6 animate-pulse"
+              />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400 to-purple-600 opacity-20 animate-pulse"></div>
             </div>
             <h3 className="text-xl font-semibold text-slate-900 mb-2">Discovering Nearby Facilities</h3>
@@ -537,8 +564,8 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                 onClick={() => setSelectedCategory("all")}
                 className={`whitespace-nowrap transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 flex-shrink-0 ${
                   selectedCategory === "all"
-                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
-                    : "hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700"
+                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg border-0"
+                    : "bg-white hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700 border-slate-300 text-slate-700"
                 }`}
               >
                 <Filter className="h-3 w-3 mr-1" />
@@ -557,8 +584,8 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                     onClick={() => setSelectedCategory(key)}
                     className={`whitespace-nowrap flex items-center gap-1 transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 flex-shrink-0 ${
                       selectedCategory === key
-                        ? `bg-gradient-to-r ${config.gradient} text-white shadow-lg ${config.shadow}`
-                        : "hover:bg-slate-50 hover:border-slate-300"
+                        ? `bg-gradient-to-r ${config.gradient} text-white shadow-lg ${config.shadow} border-0`
+                        : "bg-white hover:bg-slate-50 hover:border-slate-400 border-slate-300 text-slate-700"
                     }`}
                   >
                     <IconComponent className="h-3 w-3" />
@@ -653,11 +680,11 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                             <Button
                               size="sm"
                               onClick={() => openInMaps(facility.latitude, facility.longitude, facility.title)}
-                              className="flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2"
+                              className="flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2"
                             >
-                              <Navigation className="h-3 w-3 mr-1" />
-                              <span className="hidden sm:inline">Navigate</span>
-                              <span className="sm:hidden">Go</span>
+                              <Navigation className="h-3 w-3 mr-1 text-white" />
+                              <span className="hidden sm:inline text-white">Navigate</span>
+                              <span className="sm:hidden text-white">Go</span>
                             </Button>
                           </div>
                         </div>
@@ -668,6 +695,59 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
               })
             )}
           </div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/50 shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-amber-50/50"></div>
+        <div className="relative flex items-center justify-around py-4">
+          <Button
+            variant="ghost"
+            onClick={handleHomeClick}
+            className="flex flex-col items-center py-2 text-slate-600 hover:bg-slate-50 rounded-2xl px-4"
+          >
+            <Home className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Home</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            onClick={handleEmergencyCall}
+            className="flex flex-col items-center py-2 text-red-500 hover:bg-red-50 rounded-2xl px-4"
+          >
+            <Phone className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Emergency</span>
+          </Button>
+
+          {/* Premium Center Diya */}
+          <div className="relative">
+            {/* Main circular background with glow */}
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-white bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400">
+              <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                <img src="/icon.png" alt="Diya" className="w-8 h-8 object-contain" />
+              </div>
+            </div>
+
+            {/* Outer glow animation */}
+            <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
+          </div>
+
+          <Button
+            variant="ghost"
+            onClick={handleGalleryClick}
+            className="flex flex-col items-center py-2 text-slate-600 hover:bg-slate-50 rounded-2xl px-4"
+          >
+            <ImageIcon className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Gallery</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            className="flex flex-col items-center py-2 text-indigo-600 hover:bg-indigo-50 rounded-2xl px-4"
+          >
+            <Navigation className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Near By</span>
+          </Button>
         </div>
       </div>
     </div>
