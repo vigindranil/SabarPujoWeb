@@ -1,7 +1,24 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowLeft, MapPin, Hospital, Shield, Train, Bus, Car, CreditCard, Fuel, Navigation, Search, Filter, Clock, Star, Phone, ExternalLink } from "lucide-react"
+import {
+  ArrowLeft,
+  MapPin,
+  Hospital,
+  Shield,
+  Train,
+  Bus,
+  Car,
+  CreditCard,
+  Fuel,
+  Navigation,
+  Search,
+  Filter,
+  Clock,
+  Star,
+  Phone,
+  ExternalLink,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -252,18 +269,20 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
   }
 
   const getFilteredFacilities = () => {
-    let facilities = selectedCategory === "all" 
-      ? getAllFacilities()
-      : nearbyData?.data[selectedCategory as keyof typeof nearbyData.data]?.map((facility) => ({
-          ...facility,
-          type: selectedCategory,
-        })) || []
+    let facilities =
+      selectedCategory === "all"
+        ? getAllFacilities()
+        : nearbyData?.data[selectedCategory as keyof typeof nearbyData.data]?.map((facility) => ({
+            ...facility,
+            type: selectedCategory,
+          })) || []
 
     if (searchQuery.trim()) {
-      facilities = facilities.filter(facility =>
-        facility.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (facility.description && facility.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (facility.address && facility.address.toLowerCase().includes(searchQuery.toLowerCase()))
+      facilities = facilities.filter(
+        (facility) =>
+          facility.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (facility.description && facility.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (facility.address && facility.address.toLowerCase().includes(searchQuery.toLowerCase())),
       )
     }
 
@@ -298,14 +317,14 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
           {
             featureType: "poi",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
+            stylers: [{ visibility: "off" }],
           },
           {
             featureType: "transit",
             elementType: "labels",
-            stylers: [{ visibility: "simplified" }]
-          }
-        ]
+            stylers: [{ visibility: "simplified" }],
+          },
+        ],
       })
 
       try {
@@ -334,7 +353,8 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
           map: map,
           title: "Your Location",
           icon: {
-            url: "data:image/svg+xml;charset=UTF-8," +
+            url:
+              "data:image/svg+xml;charset=UTF-8," +
               encodeURIComponent(`
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="16" cy="16" r="14" fill="#3B82F6" stroke="white" strokeWidth="3"/>
@@ -361,7 +381,8 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
             map: map,
             title: facility.title,
             icon: {
-              url: "data:image/svg+xml;charset=UTF-8," +
+              url:
+                "data:image/svg+xml;charset=UTF-8," +
                 encodeURIComponent(`
                   <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="18" cy="18" r="15" fill="${config?.color || "#64748B"}" stroke="white" strokeWidth="3"/>
@@ -432,7 +453,7 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
             </div>
             <h3 className="text-xl font-semibold text-slate-900 mb-2">Connection Issue</h3>
             <p className="text-slate-600 mb-6">{error}</p>
-            <Button 
+            <Button
               onClick={fetchNearbyData}
               className="bg-gradient-to-r from-red-500 to-orange-600 hover:from-red-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
             >
@@ -448,78 +469,75 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
-      {/* Enhanced Header */}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
-        <div className="flex items-center gap-4 p-4">
-          <Button 
-            variant="ghost" 
-            size="icon" 
+        <div className="flex items-center gap-3 p-3 md:gap-4 md:p-4">
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onBack}
-            className="hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200 rounded-xl"
+            className="hover:bg-indigo-50 hover:text-indigo-600 transition-colors duration-200 rounded-xl flex-shrink-0"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
           </Button>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent truncate">
               Nearby Facilities
             </h1>
-            <p className="text-sm text-slate-600 font-medium">
+            <p className="text-xs md:text-sm text-slate-600 font-medium">
               {nearbyData?.counts.total || 0} facilities discovered around you
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 border-0">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Badge
+              variant="secondary"
+              className="bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 border-0 text-xs"
+            >
               Live Data
             </Badge>
           </div>
         </div>
       </div>
 
-      <div className="flex h-[calc(100vh-88px)]">
-        {/* Enhanced Map View */}
-        <div className="w-1/2 border-r border-slate-200/60">
+      <div className="flex flex-col lg:flex-row h-[calc(100vh-76px)] md:h-[calc(100vh-88px)]">
+        <div className="w-full lg:w-1/2 h-64 lg:h-full border-b lg:border-b-0 lg:border-r border-slate-200/60 order-2 lg:order-1">
           <div className="h-full relative overflow-hidden">
             {mapLoaded ? (
-              <div ref={mapRef} className="w-full h-full rounded-l-xl" />
+              <div ref={mapRef} className="w-full h-full lg:rounded-l-xl" />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
                 <div className="text-center">
                   <div className="relative mb-4">
-                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-slate-300 border-t-indigo-600 mx-auto"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 md:h-12 md:w-12 border-4 border-slate-300 border-t-indigo-600 mx-auto"></div>
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-400 to-purple-600 opacity-10 animate-pulse"></div>
                   </div>
-                  <p className="text-slate-700 font-medium">Loading interactive map...</p>
+                  <p className="text-slate-700 font-medium text-sm md:text-base">Loading interactive map...</p>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Enhanced List View */}
-        <div className="w-1/2 flex flex-col bg-gradient-to-b from-white to-slate-50/50">
-          {/* Search & Filter Section */}
-          <div className="p-6 border-b border-slate-200/60 bg-white/50 backdrop-blur-sm">
-            {/* Search Bar */}
-            <div className="relative mb-4">
+        <div className="w-full lg:w-1/2 flex flex-col bg-gradient-to-b from-white to-slate-50/50 order-1 lg:order-2">
+          <div className="p-3 md:p-6 border-b border-slate-200/60 bg-white/50 backdrop-blur-sm">
+            <div className="relative mb-3 md:mb-4">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search facilities..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm text-slate-900 placeholder-slate-500"
+                className="w-full pl-10 pr-4 py-2 md:py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/80 backdrop-blur-sm text-slate-900 placeholder-slate-500 text-sm md:text-base"
               />
             </div>
 
-            {/* Category Filter Pills */}
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            <div className="flex gap-1 md:gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-1 px-1">
               <Button
                 variant={selectedCategory === "all" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory("all")}
-                className={`whitespace-nowrap transition-all duration-200 ${
-                  selectedCategory === "all" 
-                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg" 
+                className={`whitespace-nowrap transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 flex-shrink-0 ${
+                  selectedCategory === "all"
+                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
                     : "hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-700"
                 }`}
               >
@@ -537,29 +555,29 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                     variant={selectedCategory === key ? "default" : "outline"}
                     size="sm"
                     onClick={() => setSelectedCategory(key)}
-                    className={`whitespace-nowrap flex items-center gap-1 transition-all duration-200 ${
+                    className={`whitespace-nowrap flex items-center gap-1 transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 flex-shrink-0 ${
                       selectedCategory === key
                         ? `bg-gradient-to-r ${config.gradient} text-white shadow-lg ${config.shadow}`
                         : "hover:bg-slate-50 hover:border-slate-300"
                     }`}
                   >
                     <IconComponent className="h-3 w-3" />
-                    {config.name} ({count})
+                    <span className="hidden sm:inline">{config.name}</span>
+                    <span className="sm:hidden">{config.name.split(" ")[0]}</span>({count})
                   </Button>
                 )
               })}
             </div>
           </div>
 
-          {/* Enhanced Facilities List */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-3 md:space-y-4">
             {filteredFacilities.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-gradient-to-r from-slate-200 to-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-8 h-8 text-slate-500" />
+              <div className="text-center py-8 md:py-12">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r from-slate-200 to-slate-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-6 h-6 md:w-8 md:h-8 text-slate-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-700 mb-2">No facilities found</h3>
-                <p className="text-slate-500">Try adjusting your search or category filter</p>
+                <h3 className="text-base md:text-lg font-semibold text-slate-700 mb-2">No facilities found</h3>
+                <p className="text-slate-500 text-sm md:text-base">Try adjusting your search or category filter</p>
               </div>
             ) : (
               filteredFacilities.map((facility) => {
@@ -569,52 +587,53 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                 return (
                   <Card
                     key={`${facility.type}-${facility.id}`}
-                    className={`overflow-hidden hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-r ${config?.bgGradient || 'from-slate-50 to-slate-100'} hover:-translate-y-1 ${config?.shadow || 'shadow-slate-200/50'}`}
+                    className={`overflow-hidden hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-r ${config?.bgGradient || "from-slate-50 to-slate-100"} hover:-translate-y-1 ${config?.shadow || "shadow-slate-200/50"}`}
                   >
-                    <CardContent className="p-5">
-                      <div className="flex items-start gap-4">
+                    <CardContent className="p-3 md:p-5">
+                      <div className="flex items-start gap-3 md:gap-4">
                         <div
-                          className={`p-3 rounded-xl flex-shrink-0 bg-gradient-to-r ${config?.gradient || 'from-slate-400 to-slate-500'} shadow-md`}
+                          className={`p-2 md:p-3 rounded-xl flex-shrink-0 bg-gradient-to-r ${config?.gradient || "from-slate-400 to-slate-500"} shadow-md`}
                         >
-                          <IconComponent className="h-6 w-6 text-white" />
+                          <IconComponent className="h-4 w-4 md:h-6 md:w-6 text-white" />
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1">
-                              <h3 className="font-bold text-slate-900 text-base leading-tight mb-1">
+                          <div className="flex items-start justify-between gap-2 md:gap-3">
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-bold text-slate-900 text-sm md:text-base leading-tight mb-1">
                                 {facility.title}
                               </h3>
                               {facility.description && (
-                                <p className="text-sm text-slate-600 mb-2 leading-relaxed">
+                                <p className="text-xs md:text-sm text-slate-600 mb-2 leading-relaxed line-clamp-2">
                                   {facility.description}
                                 </p>
                               )}
                               {facility.address && (
-                                <p className="text-xs text-slate-500 mb-3 line-clamp-2 leading-relaxed">
+                                <p className="text-xs text-slate-500 mb-2 md:mb-3 line-clamp-2 leading-relaxed">
                                   📍 {facility.address}
                                 </p>
                               )}
 
-                              <div className="flex items-center gap-2 mb-3 flex-wrap">
-                                <Badge 
-                                  variant="secondary" 
+                              <div className="flex items-center gap-1 md:gap-2 mb-2 md:mb-3 flex-wrap">
+                                <Badge
+                                  variant="secondary"
                                   className="text-xs bg-gradient-to-r from-indigo-100 to-indigo-200 text-indigo-800 border-0"
                                 >
                                   📍 {facility.distance}m away
                                 </Badge>
                                 {facility.timing && (
-                                  <Badge 
-                                    variant="outline" 
+                                  <Badge
+                                    variant="outline"
                                     className="text-xs bg-gradient-to-r from-amber-50 to-amber-100 border-amber-200 text-amber-800"
                                   >
                                     <Clock className="h-3 w-3 mr-1" />
-                                    {facility.timing}
+                                    <span className="hidden sm:inline">{facility.timing}</span>
+                                    <span className="sm:hidden">Open</span>
                                   </Badge>
                                 )}
                                 {facility.rating && (
-                                  <Badge 
-                                    variant="outline" 
+                                  <Badge
+                                    variant="outline"
                                     className="text-xs bg-gradient-to-r from-green-50 to-green-100 border-green-200 text-green-800"
                                   >
                                     <Star className="h-3 w-3 mr-1" />
@@ -625,8 +644,8 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
 
                               {facility.contactNumber && (
                                 <div className="flex items-center gap-1 text-xs text-slate-600 mb-2">
-                                  <Phone className="h-3 w-3" />
-                                  {facility.contactNumber}
+                                  <Phone className="h-3 w-3 flex-shrink-0" />
+                                  <span className="truncate">{facility.contactNumber}</span>
                                 </div>
                               )}
                             </div>
@@ -634,10 +653,11 @@ export function NearbyPage({ onBack, userLocation }: NearbyPageProps) {
                             <Button
                               size="sm"
                               onClick={() => openInMaps(facility.latitude, facility.longitude, facility.title)}
-                              className="flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200"
+                              className="flex-shrink-0 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 text-xs md:text-sm px-2 md:px-3 py-1 md:py-2"
                             >
                               <Navigation className="h-3 w-3 mr-1" />
-                              Navigate
+                              <span className="hidden sm:inline">Navigate</span>
+                              <span className="sm:hidden">Go</span>
                             </Button>
                           </div>
                         </div>

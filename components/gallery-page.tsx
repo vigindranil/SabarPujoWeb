@@ -28,7 +28,7 @@ export function GalleryPage({ onBack }: GalleryPageProps) {
   const fetchGalleryImages = async () => {
     setLoading(true)
     setError(null)
-    const url = "http://vigpl.com:8005/WBUtsavRestAPI/api/pujaPandal/getSpecialPujaDetails"
+    const url = "https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getSpecialPujaDetails"
 
     try {
       const response = await fetch(url, {

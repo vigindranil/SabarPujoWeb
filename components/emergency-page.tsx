@@ -149,6 +149,7 @@ export function EmergencyPage({ onBack }: EmergencyPageProps) {
           </div>
         </div>
       </div>
+      
     </div>
   )
 }
