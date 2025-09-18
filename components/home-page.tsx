@@ -1,22 +1,33 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Search, MapPin, Image, Phone, Shield, Home, Navigation, Sparkles, Calendar, Heart } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { FeedbackModal } from "@/components/feedback-modal"
-import { fetchPujaPandals, getNearestPandals } from "@/lib/api"
-import type { PujaPandalListItem } from "@/lib/api"
+import { useState, useEffect } from "react";
+import {
+  Search,
+  MapPin,
+  Image,
+  Phone,
+  Shield,
+  Home,
+  Navigation,
+  Sparkles,
+  Calendar,
+  Heart,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { FeedbackModal } from "@/components/feedback-modal";
+import { fetchPujaPandals, getNearestPandals } from "@/lib/api";
+import type { PujaPandalListItem } from "@/lib/api";
 
 interface HomePageProps {
-  userLocation: { lat: number; lng: number } | null
-  onPandalSelect: (id: number) => void
-  onShowSearch: () => void
-  onShowEmergency: () => void
-  onShowNearby: () => void
-  onShowGallery: () => void
+  userLocation: { lat: number; lng: number } | null;
+  onPandalSelect: (id: number) => void;
+  onShowSearch: () => void;
+  onShowEmergency: () => void;
+  onShowNearby: () => void;
+  onShowGallery: () => void;
 }
 
 export function HomePage({
@@ -27,86 +38,90 @@ export function HomePage({
   onShowNearby,
   onShowGallery,
 }: HomePageProps) {
-  const [showFeedback, setShowFeedback] = useState(false)
-  const [allPandals, setAllPandals] = useState<(PujaPandalListItem & { distance: number })[]>([])
-  const [filteredPandals, setFilteredPandals] = useState<(PujaPandalListItem & { distance: number })[]>([])
-  const [searchQuery, setSearchQuery] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  const [isSearching, setIsSearching] = useState(false)
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [allPandals, setAllPandals] = useState<
+    (PujaPandalListItem & { distance: number })[]
+  >([]);
+  const [filteredPandals, setFilteredPandals] = useState<
+    (PujaPandalListItem & { distance: number })[]
+  >([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     if (userLocation) {
-      fetchAllPandals()
+      fetchAllPandals();
     }
-  }, [userLocation])
+  }, [userLocation]);
 
   // Search functionality
   useEffect(() => {
     if (searchQuery.trim() === "") {
-      setFilteredPandals(allPandals.slice(0, 10))
-      setIsSearching(false)
+      setFilteredPandals(allPandals.slice(0, 10));
+      setIsSearching(false);
     } else {
-      setIsSearching(true)
+      setIsSearching(true);
       const filtered = allPandals.filter((pandal) => {
-        const query = searchQuery.toLowerCase()
-        const communityName = pandal.community_name?.toLowerCase() || ""
-        const theme = pandal.theme?.toLowerCase() || ""
-        const address = pandal.address?.toLowerCase() || ""
-        
+        const query = searchQuery.toLowerCase();
+        const communityName = pandal.community_name?.toLowerCase() || "";
+        const theme = pandal.theme?.toLowerCase() || "";
+        const address = pandal.address?.toLowerCase() || "";
+
         return (
           communityName.includes(query) ||
           theme.includes(query) ||
           address.includes(query)
-        )
-      })
-      setFilteredPandals(filtered.slice(0, 10))
+        );
+      });
+      setFilteredPandals(filtered.slice(0, 10));
     }
-  }, [searchQuery, allPandals])
+  }, [searchQuery, allPandals]);
 
   const fetchAllPandals = async () => {
-    if (!userLocation) return
+    if (!userLocation) return;
 
     try {
-      setIsLoading(true)
-      const allPandalData = await fetchPujaPandals()
+      setIsLoading(true);
+      const allPandalData = await fetchPujaPandals();
       const pandalWithDistance = getNearestPandals(
         allPandalData,
         userLocation.lat,
         userLocation.lng,
-        50, // Get more pandals for better search results
-      )
-      setAllPandals(pandalWithDistance)
-      setFilteredPandals(pandalWithDistance.slice(0, 10)) // Show nearest 10 initially
+        50 // Get more pandals for better search results
+      );
+      setAllPandals(pandalWithDistance);
+      setFilteredPandals(pandalWithDistance.slice(0, 10)); // Show nearest 10 initially
     } catch (error) {
-      console.error("Error fetching pandals:", error)
+      console.error("Error fetching pandals:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
       // Search is already handled by useEffect
-      return
+      return;
     }
-    onShowSearch()
-  }
+    onShowSearch();
+  };
 
   const handleClearSearch = () => {
-    setSearchQuery("")
-  }
+    setSearchQuery("");
+  };
 
   const handleEmergencyCall = () => {
-    onShowEmergency()
-  }
+    onShowEmergency();
+  };
 
   const handleNearbyClick = () => {
-    onShowNearby()
-  }
+    onShowNearby();
+  };
 
   const handleGalleryClick = () => {
-    onShowGallery()
-  }
+    onShowGallery();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -114,11 +129,14 @@ export function HomePage({
       <div className="relative px-4 pt-12 pb-8 overflow-hidden">
         {/* Premium Background Pattern */}
         <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-yellow-300/10 to-orange-400/20">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
                              radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                             radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%)`
-          }} />
+                             radial-gradient(circle at 40% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%)`,
+            }}
+          />
         </div>
 
         {/* Floating Elements */}
@@ -126,7 +144,10 @@ export function HomePage({
           <div className="absolute top-8 right-8 w-20 h-20 border-2 border-amber-300 rounded-full animate-pulse shadow-lg"></div>
           <div className="absolute bottom-12 left-6 w-6 h-6 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full animate-bounce"></div>
           <div className="absolute top-1/3 right-1/4 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full animate-pulse"></div>
-          <div className="absolute top-2/3 left-1/3 w-8 h-8 border border-purple-300 rounded-full animate-spin" style={{ animationDuration: '8s' }}></div>
+          <div
+            className="absolute top-2/3 left-1/3 w-8 h-8 border border-purple-300 rounded-full animate-spin"
+            style={{ animationDuration: "8s" }}
+          ></div>
         </div>
 
         <div className="relative z-10">
@@ -142,7 +163,7 @@ export function HomePage({
                 </div>
                 <div className="absolute inset-0 w-14 h-14 bg-amber-400/30 rounded-2xl blur-lg animate-pulse"></div>
               </div>
-              
+
               <div>
                 <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-600 via-yellow-600 to-orange-600 bg-clip-text text-transparent leading-tight">
                   Welcome to Sabar Pujo!
@@ -174,8 +195,18 @@ export function HomePage({
                     onClick={handleClearSearch}
                     className="absolute right-6 text-slate-400 hover:text-slate-600 transition-colors"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 )}
@@ -195,9 +226,12 @@ export function HomePage({
                 <Calendar className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-blue-800 text-lg mb-1">Live Updates & Announcements</h3>
+                <h3 className="font-bold text-blue-800 text-lg mb-1">
+                  Live Updates & Announcements
+                </h3>
                 <p className="text-blue-700 text-sm leading-relaxed">
-                  Welcome to Durga Puja 2024! Experience the divine celebration with safety and joy. Stay tuned for live updates.
+                  Welcome to Durga Puja 2025! Experience the divine celebration
+                  with safety and joy. Stay tuned for live updates. - West Bengal Police
                 </p>
               </div>
               <div className="flex flex-col items-center space-y-1 flex-shrink-0">
@@ -221,7 +255,7 @@ export function HomePage({
             </div>
             <span className="font-semibold text-white">Search</span>
           </Button>
-          
+
           <Button
             onClick={handleGalleryClick}
             className="h-28 bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 rounded-3xl flex flex-col items-center justify-center space-y-3 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-purple-400/20"
@@ -231,7 +265,7 @@ export function HomePage({
             </div>
             <span className="font-semibold text-white">Gallery</span>
           </Button>
-          
+
           <Button
             onClick={handleEmergencyCall}
             className="h-28 bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 rounded-3xl flex flex-col items-center justify-center space-y-3 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-red-400/20"
@@ -241,7 +275,7 @@ export function HomePage({
             </div>
             <span className="font-semibold text-white">Emergency</span>
           </Button>
-          
+
           <Button className="h-28 bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 rounded-3xl flex flex-col items-center justify-center space-y-3 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-emerald-400/20">
             <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
               <Shield className="w-6 h-6 text-white" />
@@ -256,22 +290,21 @@ export function HomePage({
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-700 to-slate-600 bg-clip-text text-transparent">
-              {isSearching ? `Search Results` : 'Featured Pandals'}
+              {isSearching ? `Search Results` : "Featured Pandals"}
             </h2>
             <p className="text-slate-500 text-sm mt-1">
               <span className="inline-flex items-center">
                 <MapPin className="w-3 h-3 mr-1" />
-                {isSearching 
-                  ? `${filteredPandals.length} pandals found` 
-                  : `${filteredPandals.length} nearest pandals to you`
-                }
+                {isSearching
+                  ? `${filteredPandals.length} pandals found`
+                  : `${filteredPandals.length} nearest pandals to you`}
               </span>
             </p>
           </div>
           {!isSearching && (
-            <Button 
-              variant="ghost" 
-              onClick={onShowSearch} 
+            <Button
+              variant="ghost"
+              onClick={onShowSearch}
               className="text-blue-600 font-semibold hover:bg-blue-50 hover:text-blue-700 rounded-xl px-6"
             >
               View All
@@ -294,11 +327,14 @@ export function HomePage({
             <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <Search className="w-12 h-12 text-slate-400" />
             </div>
-            <h3 className="text-xl font-semibold text-slate-600 mb-2">No Pandals Found</h3>
+            <h3 className="text-xl font-semibold text-slate-600 mb-2">
+              No Pandals Found
+            </h3>
             <p className="text-slate-500 text-center mb-6">
-              Try searching with different keywords like pandal name, theme, or location
+              Try searching with different keywords like pandal name, theme, or
+              location
             </p>
-            <Button 
+            <Button
               onClick={handleClearSearch}
               className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl"
             >
@@ -317,7 +353,10 @@ export function HomePage({
                   <div className="flex">
                     <div className="w-32 h-32 bg-gradient-to-br from-slate-100 to-slate-200 flex-shrink-0 relative overflow-hidden">
                       <img
-                        src={pandal.image || "/placeholder.svg?height=128&width=128&query=Durga+Puja+pandal"}
+                        src={
+                          pandal.image ||
+                          "/placeholder.svg?height=128&width=128&query=Durga+Puja+pandal"
+                        }
                         alt={pandal.community_name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
@@ -330,40 +369,46 @@ export function HomePage({
                       <div>
                         <h3 className="font-bold text-slate-800 mb-2 text-lg leading-tight group-hover:text-blue-600 transition-colors">
                           {searchQuery && pandal.community_name ? (
-                            <span dangerouslySetInnerHTML={{
-                              __html: pandal.community_name.replace(
-                                new RegExp(`(${searchQuery})`, 'gi'),
-                                '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
-                              )
-                            }} />
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: pandal.community_name.replace(
+                                  new RegExp(`(${searchQuery})`, "gi"),
+                                  '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
+                                ),
+                              }}
+                            />
                           ) : (
-                            pandal.community_name || 'Unknown Community'
+                            pandal.community_name || "Unknown Community"
                           )}
                         </h3>
                         <p className="text-sm text-slate-600 mb-3 leading-relaxed line-clamp-2">
                           {searchQuery && pandal.theme ? (
-                            <span dangerouslySetInnerHTML={{
-                              __html: pandal.theme.replace(
-                                new RegExp(`(${searchQuery})`, 'gi'),
-                                '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
-                              )
-                            }} />
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: pandal.theme.replace(
+                                  new RegExp(`(${searchQuery})`, "gi"),
+                                  '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
+                                ),
+                              }}
+                            />
                           ) : (
-                            pandal.theme || 'No theme specified'
+                            pandal.theme || "No theme specified"
                           )}
                         </p>
                         <div className="flex items-center text-xs text-slate-500 mb-3">
                           <MapPin className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
                           <span className="truncate">
                             {searchQuery && pandal.address ? (
-                              <span dangerouslySetInnerHTML={{
-                                __html: pandal.address.replace(
-                                  new RegExp(`(${searchQuery})`, 'gi'),
-                                  '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
-                                )
-                              }} />
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: pandal.address.replace(
+                                    new RegExp(`(${searchQuery})`, "gi"),
+                                    '<mark class="bg-yellow-200 text-slate-800 px-1 rounded">$1</mark>'
+                                  ),
+                                }}
+                              />
                             ) : (
-                              pandal.address || 'Address not available'
+                              pandal.address || "Address not available"
                             )}
                           </span>
                         </div>
@@ -401,15 +446,28 @@ export function HomePage({
                   <div className="text-white text-2xl">💬</div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-xl mb-1">Feedback & Suggestions</h3>
+                  <h3 className="font-bold text-white text-xl mb-1">
+                    Feedback & Suggestions
+                  </h3>
                   <p className="text-white/90 text-sm leading-relaxed">
-                    Help us improve your festival experience and make it even better
+                    Help us improve your festival experience and make it even
+                    better
                   </p>
                 </div>
               </div>
               <div className="text-white/80 hover:text-white transition-colors group-hover:translate-x-1 transform duration-300">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-7 h-7"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </div>
             </div>
@@ -421,11 +479,14 @@ export function HomePage({
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/50 shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-amber-50/50"></div>
         <div className="relative flex items-center justify-around py-4">
-          <Button variant="ghost" className="flex flex-col items-center py-2 text-blue-600 hover:bg-blue-50 rounded-2xl px-4">
+          <Button
+            variant="ghost"
+            className="flex flex-col items-center py-2 text-blue-600 hover:bg-blue-50 rounded-2xl px-4"
+          >
             <Home className="w-6 h-6 mb-1" />
             <span className="text-xs font-medium">Home</span>
           </Button>
-          
+
           <Button
             variant="ghost"
             onClick={handleEmergencyCall}
@@ -434,24 +495,24 @@ export function HomePage({
             <Phone className="w-6 h-6 mb-1" />
             <span className="text-xs font-medium">Emergency</span>
           </Button>
-          
+
           {/* Premium Center Diya */}
           <div className="relative">
-  {/* Main circular background with glow */}
-        <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-white bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400">
-          <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
-            <img
-              src="/icon.png"   // 🔹 replace with your diya image path
-              alt="Diya"
-              className="w-8 h-8 object-contain"
-            />
-          </div>
-        </div>
+            {/* Main circular background with glow */}
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-white bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400">
+              <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                <img
+                  src="/icon.png" // 🔹 replace with your diya image path
+                  alt="Diya"
+                  className="w-8 h-8 object-contain"
+                />
+              </div>
+            </div>
 
-  {/* Outer glow animation */}
-  <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
-</div>
-          
+            {/* Outer glow animation */}
+            <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
+          </div>
+
           <Button
             variant="ghost"
             onClick={handleGalleryClick}
@@ -460,7 +521,7 @@ export function HomePage({
             <Image className="w-6 h-6 mb-1" />
             <span className="text-xs font-medium">Gallery</span>
           </Button>
-          
+
           <Button
             variant="ghost"
             onClick={handleNearbyClick}
@@ -472,7 +533,10 @@ export function HomePage({
         </div>
       </div>
 
-      <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} />
+      <FeedbackModal
+        isOpen={showFeedback}
+        onClose={() => setShowFeedback(false)}
+      />
     </div>
-  )
+  );
 }

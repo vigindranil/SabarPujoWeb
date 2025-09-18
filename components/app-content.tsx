@@ -30,6 +30,7 @@ export function AppContent({ userLocation }: AppContentProps) {
 
   const handleShowSearch = () => {
     setCurrentPage("search")
+
   }
 
   const handleBackToSearch = () => {
@@ -49,23 +50,54 @@ export function AppContent({ userLocation }: AppContentProps) {
   }
 
   if (currentPage === "gallery") {
-    return <GalleryPage onBack={handleBackToHome} />
+    return <GalleryPage 
+      onBack={handleBackToHome}
+      onShowEmergency={handleShowEmergency}
+      onShowNearby={handleShowNearby}
+      onShowGallery={handleShowGallery}
+      />
   }
 
+ 
+
   if (currentPage === "nearby") {
-    return <NearbyPage onBack={handleBackToHome} userLocation={userLocation} />
+    return <NearbyPage 
+    onBack={handleBackToHome} 
+    userLocation={userLocation}
+    onShowEmergency={handleShowEmergency}
+ 
+    onShowGallery={handleShowGallery}
+     />
   }
 
   if (currentPage === "emergency") {
-    return <EmergencyPage onBack={handleBackToHome} />
+    return <EmergencyPage 
+    onBack={handleBackToHome}
+    onShowEmergency = {handleShowEmergency}
+    onShowNearby={handleShowNearby}
+    onShowGallery={handleShowGallery}
+    onShowHome={handleBackToHome}
+    />
   }
 
   if (currentPage === "search") {
-    return <SearchPage onBack={handleBackToHome} onPandalSelect={handlePandalClick} userLocation={userLocation} />
+    return <SearchPage 
+    onBack={handleBackToHome}
+    onShowEmergency={handleShowEmergency}
+    onShowNearby={handleShowNearby}
+    onShowGallery={handleShowGallery}
+    onPandalSelect={handlePandalClick} 
+    userLocation={userLocation} />
   }
 
   if (currentPage === "details" && selectedPandal) {
-    return <PandalDetails pandalId={selectedPandal} userLocation={userLocation} onBack={handleBackToSearch} />
+    return <PandalDetails 
+    pandalId={selectedPandal} 
+    userLocation={userLocation} 
+    onBack={handleBackToSearch}
+    onShowEmergency={handleShowEmergency}
+    onShowNearby={handleShowNearby}
+    onShowGallery={handleShowGallery}  />
   }
 
   return (

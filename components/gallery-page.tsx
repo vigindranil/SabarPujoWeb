@@ -1,7 +1,6 @@
 "use client"
-
 import { useState, useEffect } from "react"
-import { ArrowLeft, Download, Share2, X, Grid3x3, ImageIcon } from "lucide-react"
+import { ArrowLeft, Download, Share2, X, Grid3x3, ImageIcon,Home,Phone,Image,Navigation } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 
@@ -15,15 +14,35 @@ interface GalleryImage {
 }
 
 interface GalleryPageProps {
-  onBack: () => void
+  onBack: () => void;
+  onShowEmergency: () => void;
+  onShowNearby: () => void;
+  onShowGallery: () => void;
+
 }
 
-export function GalleryPage({ onBack }: GalleryPageProps) {
+export function GalleryPage({ onBack,  onShowEmergency,
+  onShowNearby,
+  onShowGallery }: GalleryPageProps) {
   const [images, setImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+
+
+
+  const handleEmergencyCall = () => {
+    onShowEmergency();
+  };
+ 
+  const handleNearbyClick = () => {
+    onShowNearby();
+  };
+
+  const handleGalleryClick = () => {
+    onShowGallery();
+  };
 
   const fetchGalleryImages = async () => {
     setLoading(true)
@@ -228,6 +247,64 @@ export function GalleryPage({ onBack }: GalleryPageProps) {
           </div>
         </DialogContent>
       </Dialog>
+       {/* Enhanced Bottom Navigation */}
+       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-slate-200/50 shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/50 via-purple-50/30 to-amber-50/50"></div>
+        <div className="relative flex items-center justify-around py-4">
+          <Button
+            variant="ghost"
+            onClick={onBack}
+            className="flex flex-col items-center py-2 text-blue-600 hover:bg-blue-50 rounded-2xl px-4"
+          >
+            <Home className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Home</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            onClick={handleEmergencyCall}
+            className="flex flex-col items-center py-2 text-red-500 hover:bg-red-50 rounded-2xl px-4"
+          >
+            <Phone className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Emergency</span>
+          </Button>
+
+          {/* Premium Center Diya */}
+          <div className="relative">
+            {/* Main circular background with glow */}
+            <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-white bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400">
+              <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                <img
+                  src="/icon.png" // 🔹 replace with your diya image path
+                  alt="Diya"
+                  className="w-8 h-8 object-contain"
+                />
+              </div>
+            </div>
+
+            {/* Outer glow animation */}
+            <div className="absolute inset-0 w-16 h-16 bg-amber-400/30 rounded-full blur-lg animate-pulse"></div>
+          </div>
+
+          <Button
+            variant="ghost"
+            onClick={handleGalleryClick}
+            className="flex flex-col items-center py-2 text-slate-600 hover:bg-slate-50 rounded-2xl px-4"
+          >
+            <Image className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Gallery</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            onClick={handleNearbyClick}
+            className="flex flex-col items-center py-2 text-slate-600 hover:bg-slate-50 rounded-2xl px-4"
+          >
+            <Navigation className="w-6 h-6 mb-1" />
+            <span className="text-xs font-medium">Near By</span>
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

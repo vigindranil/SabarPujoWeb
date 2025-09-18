@@ -703,7 +703,7 @@ export function NearbyPage({ onBack, userLocation, onShowHome, onShowEmergency, 
         <div className="relative flex items-center justify-around py-4">
           <Button
             variant="ghost"
-            onClick={handleHomeClick}
+            onClick={onBack}
             className="flex flex-col items-center py-2 text-slate-600 hover:bg-slate-50 rounded-2xl px-4"
           >
             <Home className="w-6 h-6 mb-1" />
