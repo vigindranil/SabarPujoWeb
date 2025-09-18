@@ -1,5 +1,5 @@
 // API service for Puja Pandal data
-const API_BASE_URL = "https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal"
+const API_BASE_URL = "https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal"
 
 export interface PujaPandalListItem {
   id: number

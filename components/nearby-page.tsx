@@ -178,7 +178,7 @@ export function NearbyPage({ onBack, userLocation, onShowHome, onShowEmergency, 
     try {
       setLoading(true)
       const response = await fetch(
-        "https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getNearbyPandalsAndFacilities",
+        "https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal/getNearbyPandalsAndFacilities",
         {
           method: "POST",
           headers: {

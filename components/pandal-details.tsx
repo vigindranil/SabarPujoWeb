@@ -90,7 +90,7 @@ export function PandalDetails({ pandalId, userLocation, onBack, onShowEmergency,
     if (!userLocation) return
 
     try {
-      const response = await fetch("https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getPujaPandalDetails", {
+      const response = await fetch("https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal/getPujaPandalDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

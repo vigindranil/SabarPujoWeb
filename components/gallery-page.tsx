@@ -47,7 +47,7 @@ export function GalleryPage({ onBack,  onShowEmergency,
   const fetchGalleryImages = async () => {
     setLoading(true)
     setError(null)
-    const url = "https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/getSpecialPujaDetails"
+    const url = "https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal/getSpecialPujaDetails"
 
     try {
       const response = await fetch(url, {

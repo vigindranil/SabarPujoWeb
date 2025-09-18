@@ -59,7 +59,7 @@ export function SearchPage({ onBack, onShowEmergency,
 
   const fetchAllPandals = async () => {
     try {
-      const response = await fetch("https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/findPujaPandalDetailsByName", {
+      const response = await fetch("https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal/findPujaPandalDetailsByName", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

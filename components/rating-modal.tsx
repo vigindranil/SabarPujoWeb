@@ -94,7 +94,7 @@ export function RatingModal({ isOpen, onClose, pandalId, pandalName }: RatingMod
         cybersafe_puja: ratings.cybersafePuja,
       }
 
-      const response = await fetch("https://utsab.kolkatapolice.org/UtsavRestAPI/api/pujaPandal/savePandalRating", {
+      const response = await fetch("https://sabarpujo.wbapplication.link/WBUtsavRestAPI/api/pujaPandal/savePandalRating", {
         method: "POST",
         headers: {
           accept: "*/*",
