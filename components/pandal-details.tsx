@@ -15,8 +15,9 @@ import {
   Shield,
   Users,
   Flame,
-  Image, Home
-
+  Image, 
+  Home,
+  CarFront,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -33,6 +34,8 @@ interface PandalDetailsData {
   phone: string
   distance: string
   timings: string
+  latitude: string   
+  longitude: string 
   emergencyServices: {
     medical: boolean
     police: boolean
@@ -110,6 +113,20 @@ export function PandalDetails({ pandalId, userLocation, onBack, onShowEmergency,
       console.error("Error fetching pandal details:", error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleBookRide = () => {
+    if (pandalData?.latitude && pandalData?.longitude) {
+      // Construct the URL with the pandal's coordinates
+      const url = `http://localhost:3000?splash=true&lat=${pandalData.latitude}&lng=${pandalData.longitude}`
+      
+      // Open the URL in a new tab
+      window.open(url, "_blank")
+    } else {
+      // Optional: Show an alert or toast if location is missing
+      alert("Pandal location not available to book a ride.")
+      console.warn("Pandal location data is not available.")
     }
   }
 
@@ -223,6 +240,13 @@ export function PandalDetails({ pandalId, userLocation, onBack, onShowEmergency,
           >
             <Star className="w-4 h-4 mr-2" />
             Rate This Pandal
+          </Button>
+          <Button
+            className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg"
+            onClick={handleBookRide}
+          >
+            <CarFront className="w-4 h-4 mr-2" />
+            Book a Ride
           </Button>
         </div>
 
