@@ -15,7 +15,7 @@ import {
   Shield,
   Users,
   Flame,
-  Image, 
+  Image,
   Home,
   CarFront,
 } from "lucide-react"
@@ -34,8 +34,8 @@ interface PandalDetailsData {
   phone: string
   distance: string
   timings: string
-  latitude: string   
-  longitude: string 
+  latitude: string
+  longitude: string
   emergencyServices: {
     medical: boolean
     police: boolean
@@ -119,8 +119,8 @@ export function PandalDetails({ pandalId, userLocation, onBack, onShowEmergency,
   const handleBookRide = () => {
     if (pandalData?.latitude && pandalData?.longitude) {
       // Construct the URL with the pandal's coordinates
-      const url = `http://localhost:3000?splash=true&lat=${pandalData.latitude}&lng=${pandalData.longitude}`
-      
+      const url = `https://yatrisathi.in/u?vp=pujaPandal&pandalLat=${pandalData.latitude}&pandalLon=${pandalData.longitude}`
+
       // Open the URL in a new tab
       window.open(url, "_blank")
     } else {
@@ -242,11 +242,11 @@ export function PandalDetails({ pandalId, userLocation, onBack, onShowEmergency,
             Rate This Pandal
           </Button>
           <Button
-            className="flex-1 bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg"
+            className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-secondary-foreground shadow-lg"
             onClick={handleBookRide}
           >
-            <CarFront className="w-4 h-4 mr-2" />
-            Book a Ride
+            <CarFront className="w-4 h-4 mr-2 text-black" />
+            Ride with Yatri Sathi
           </Button>
         </div>
 
