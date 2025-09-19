@@ -67,14 +67,14 @@ export function HomePage({
         // If location is available, sort by nearest
         pandalWithDistance = getNearestPandals(allPandalData, userLocation.lat, userLocation.lng, 50)
         console.log(" Showing nearest pandals based on location")
+        setAllPandals(pandalWithDistance)
+        setFilteredPandals(pandalWithDistance.slice(0, 10))
       } else {
         // If no location, show all pandals with distance 0
-        pandalWithDistance = getAllPandalsWithDistance(allPandalData)
-        console.log(" Showing all pandals (no location available)")
+       
       }
 
-      setAllPandals(pandalWithDistance)
-      setFilteredPandals(pandalWithDistance.slice(0, 10))
+    
     } catch (error) {
       console.error("Error fetching pandals:", error)
     } finally {
